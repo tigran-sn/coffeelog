@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { every } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +16,10 @@ export class AppComponent implements OnInit {
   title = 'Coffee Log';
 
   ngOnInit() {
+    this.updateNetworkStatusUi();
+    window.addEventListener('online', this.updateNetworkStatusUi);
+    window.addEventListener('offline', this.updateNetworkStatusUi);
+
     if (window.matchMedia('(display-mode: browser').matches) {
       console.log('This is running in a browser');
       if ('standalone' in navigator) {
@@ -52,6 +55,20 @@ export class AppComponent implements OnInit {
           });
         });
       }
+    }
+  }
+
+  private updateNetworkStatusUi() {
+    if (navigator.onLine) {
+      document.querySelector('body')?.style.removeProperty('filter');
+      this.matSnackBar.dismiss();
+    } else {
+      this.matSnackBar.open('You are now offline', '', {
+        duration: 3000,
+      });
+      document
+        .querySelector('body')
+        ?.style.setProperty('filter', 'grayscale(1)');
     }
   }
 }
