@@ -1,0 +1,15 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-card {
+  flex-basis: 300px;
+  margin: 20px;
+}
+
+#buttonCreate {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
