@@ -7,6 +7,19 @@
   "display": "minimal-ui",
   "scope": "./",
   "start_url": "./utm_source=pwa",
+  "description": "A simple PWA for logging your coffee consumption",
+  "screenshots": [
+    {
+      "src": "screenshots/1.png",
+      "sizes": "2880x1570",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshots/2.png",
+      "sizes": "2880x1560",
+      "type": "image/png"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Add a Coffee",

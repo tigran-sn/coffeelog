@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   title = 'Coffee Log';
 
   ngOnInit() {
-    if (window.matchMedia('display-mode: browser').matches) {
+    if (window.matchMedia('(display-mode: browser').matches) {
       console.log('This is running in a browser');
       if ('standalone' in navigator) {
         console.log('Only available in Safari');
