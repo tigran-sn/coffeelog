@@ -13,3 +13,9 @@ mat-card {
   bottom: 20px;
   right: 20px;
 }
+
+@media (display-mode: standalone) {
+  #buttonCreate {
+    bottom: 50px;
+  }
+}
