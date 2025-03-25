@@ -7,6 +7,27 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./utm_source=pwa",
+  "shortcuts": [
+    {
+      "name": "Add a Coffee",
+      "short_name": "Add Coffee",
+      "description": "Add a new coffee to your log",
+      "url": "./coffee",
+      "icons": [
+        {
+          "src": "icons/icon.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        },
+        {
+          "src": "icons/maskable_icon.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "icons/icon.png",
