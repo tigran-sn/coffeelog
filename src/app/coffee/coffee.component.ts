@@ -15,6 +15,7 @@ import { Coffee } from '../logic/Coffee';
 import { TastingRating } from '../logic/TastingRating';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UiService } from '../ui.service';
 
 @Component({
   selector: 'app-coffee',
@@ -37,6 +38,7 @@ export class CoffeeComponent {
   private data: DataService = inject(DataService);
   private router: Router = inject(Router);
   private route: ActivatedRoute = inject(ActivatedRoute);
+  private ui: UiService = inject(UiService);
 
   coffee: Coffee = new Coffee();
   types = ['Espresso', 'Ristretto', 'Americano', 'Cappuccino', 'Macchiato'];
@@ -44,12 +46,16 @@ export class CoffeeComponent {
   formType: 'editing' | 'inserting' = 'inserting';
 
   ngOnInit() {
+    this.ui.setTitle('New');
+    this.ui.setThemeColor('#343a40');
+
     this.route.params.subscribe((params) => {
       if (params['id']) {
         this.formType = 'editing';
         this.data.get(params['id'], (coffee: Coffee) => {
           this.coffee = coffee;
           this.formType = 'editing';
+          this.ui.setTitle(this.coffee.name);
           if (this.coffee.tastingRating) {
             this.tastingEnabled = true;
           }

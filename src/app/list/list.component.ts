@@ -8,6 +8,7 @@ import { Coffee } from '../logic/Coffee';
 import { DataService } from '../data.service';
 import { Router, RouterLink } from '@angular/router';
 import { GeolocationService } from '../geolocation.service';
+import { UiService } from '../ui.service';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ import { GeolocationService } from '../geolocation.service';
 export class ListComponent {
   private data: DataService = inject(DataService);
   private router: Router = inject(Router);
+  private ui: UiService = inject(UiService);
   private geolocationService: GeolocationService = inject(GeolocationService);
 
   list: Coffee[] = [];
@@ -26,6 +28,8 @@ export class ListComponent {
     this.data.getList((list: Coffee[]) => {
       this.list = list;
     });
+    this.ui.setTitle('Coffee List');
+    this.ui.setThemeColor('#343a40');
   }
 
   goToMap(coffee: Coffee) {
