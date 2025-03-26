@@ -33,8 +33,8 @@ export class ListComponent {
   }
 
   goToMap(coffee: Coffee) {
-    const mapUURL = this.geolocationService.getMapLink(coffee.location!);
-    window.open(mapUURL, '_blank');
+    const mapURL = this.geolocationService.getMapLink(coffee.location!);
+    window.open(mapURL, '_blank');
   }
 
   share(coffee: Coffee) {
