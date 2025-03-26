@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +13,39 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
   private matSnackBar: MatSnackBar = inject(MatSnackBar);
+  private swUpdate: SwUpdate = inject(SwUpdate);
 
   title = 'Coffee Log';
 
   ngOnInit() {
+    // Checking for service worker updates
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.checkForUpdate();
+      this.swUpdate.versionUpdates.subscribe((update) => {
+        if (update.type === 'VERSION_READY') {
+          const sb = this.matSnackBar.open(
+            'There is a new version of the app available.',
+            'Install now',
+            {
+              duration: 4000,
+            }
+          );
+          sb.onAction().subscribe(() => {
+            // TODO: UI check before update
+            document.location.reload();
+          });
+        }
+      });
+    } else {
+      console.log('Service worker updates are disabled');
+    }
+
+    // Updating the UI on network changes
     this.updateNetworkStatusUi();
     window.addEventListener('online', this.updateNetworkStatusUi);
     window.addEventListener('offline', this.updateNetworkStatusUi);
 
+    // Inviting the user to install the app
     if (window.matchMedia('(display-mode: browser').matches) {
       console.log('This is running in a browser');
       if ('standalone' in navigator) {
