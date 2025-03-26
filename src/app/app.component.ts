@@ -3,17 +3,20 @@ import { RouterOutlet } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, SwPush } from '@angular/service-worker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbarModule],
+  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   private matSnackBar: MatSnackBar = inject(MatSnackBar);
   private swUpdate: SwUpdate = inject(SwUpdate);
+  private swPush: SwPush = inject(SwPush);
 
   title = 'Coffee Log';
 
@@ -95,6 +98,30 @@ export class AppComponent implements OnInit {
       document
         .querySelector('body')
         ?.style.setProperty('filter', 'grayscale(1)');
+    }
+  }
+
+  registerForPush(): void {
+    if (this.swPush.isEnabled) {
+      Notification.requestPermission((permission) => {
+        if (permission === 'granted') {
+          console.log('Notification permission granted');
+          this.swPush
+            .requestSubscription({
+              serverPublicKey:
+                'BAgl2RaMeApvMCfwnbyy-2rVYkwE9AX2kMWB0SV1oLB1KNjsf4hE5e2vHotgnoiOFi_hxL3k31M8DtE3TIDdlC0',
+            })
+            .then((registration) => {
+              // TODO: Send the subscription to the server
+              console.log(JSON.stringify(registration));
+            })
+            .catch((err) =>
+              console.error('Could not subscribe to notifications', err)
+            );
+        } else {
+          console.log('Notification permission denied');
+        }
+      });
     }
   }
 }
